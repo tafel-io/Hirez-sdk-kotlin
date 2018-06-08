@@ -1,0 +1,3 @@
+rootProject.name = 'paladins-sdk'
+rootProject.buildFileName = 'build.gradle.kts'
+
