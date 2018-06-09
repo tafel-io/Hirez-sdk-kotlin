@@ -1,37 +1,30 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.Coroutines
 
-group = "io.tafel"
-version = "1.0-SNAPSHOT"
-
-buildscript {
-    var kotlin_version: String by extra
-    kotlin_version = "1.2.20"
-
-    repositories {
-        mavenCentral()
-    }
-    
-    dependencies {
-        classpath(kotlinModule("gradle-plugin", kotlin_version))
-    }
-    
+plugins {
+    application
+    kotlin("jvm") version "1.2.41"
 }
 
-apply {
-    plugin("kotlin")
+application {
+    mainClassName = "samples.HelloCoroutinesKt"
 }
 
-val kotlin_version: String by extra
-
-repositories {
-    mavenCentral()
+kotlin { // configure<org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension>
+    experimental.coroutines = Coroutines.ENABLE
 }
 
 dependencies {
-    compile(kotlinModule("stdlib-jdk8", kotlin_version))
+    compile(kotlin("stdlib"))
+    implementation("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-experimental-adapter:1.0.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:0.23.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.4.0")
+
+    testCompile("org.junit.jupiter:junit-jupiter-api:5.2.0")
+    testCompile("org.mockito:mockito-core:2.10.0")
+    testCompile("com.squareup.retrofit2:retrofit-mock:2.3.0")
 }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+repositories {
+    jcenter()
 }
 
