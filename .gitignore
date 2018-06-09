@@ -3,6 +3,7 @@
 .idea/**/tasks.xml
 .idea/**/dictionaries
 .idea/**/shelf
+.idea/inspectionProfiles/
 
 # Sensitive or high-churn files
 .idea/**/dataSources/
@@ -21,3 +22,5 @@
 # IntelliJ
 out/
 build/
+src/main/resources/
+src/test/resources/
