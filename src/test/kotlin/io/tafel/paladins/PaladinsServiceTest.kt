@@ -8,6 +8,7 @@ import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import java.io.IOException
 import java.util.*
 
+//TODO make these tests do something instead of just printing output
 @TestInstance(PER_CLASS)
 internal class PaladinsServiceTest {
 
@@ -40,30 +41,36 @@ internal class PaladinsServiceTest {
     @Test
     fun createSession() {
         val createSessionResponse = runBlocking { paladinsService.createSession() }
-        print(createSessionResponse)
+        println(createSessionResponse)
     }
 
     @Test
     fun getServerStatus() {
         val serverStatus = runBlocking { paladinsService.getServerStatus() }
-        print(serverStatus)
+        println(serverStatus)
     }
 
     @Test
     fun getDataUsed() {
         val dataUsed = runBlocking { paladinsService.getDataUsed() }
-        print(dataUsed)
+        println(dataUsed)
     }
 
     @Test
     fun getFriends() {
         val friends = runBlocking { paladinsService.getFriends("PGPGPGPG") }
-        print(friends)
+        println(friends)
     }
 
     @Test
     fun getPlayer() {
         val player = runBlocking { paladinsService.getPlayer("PGPGPGPG") }
-        print(player)
+        println(player)
+    }
+
+    @Test
+    fun getChampions() {
+        val champions = runBlocking { paladinsService.getChampions() }
+        println(champions)
     }
 }

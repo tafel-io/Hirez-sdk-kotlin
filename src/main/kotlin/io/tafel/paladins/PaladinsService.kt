@@ -2,6 +2,7 @@ package io.tafel.paladins
 
 import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.experimental.CoroutineCallAdapterFactory
+import io.tafel.paladins.model.Language
 import kotlinx.coroutines.experimental.Deferred
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -16,11 +17,11 @@ class PaladinsService(private val devId: Int, private val authKey: String) {
             .baseUrl("http://api.paladins.com/paladinsapi.svc/")
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
-            .client(getOkHTTPClient())
+            .client(getOkHttpClient())
             .build()
             .create(PaladinsAPI::class.java)
 
-    private fun getOkHTTPClient() = OkHttpClient.Builder()
+    private fun getOkHttpClient() = OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }).build()
 
     suspend fun ping() = paladinsClient.pingAPI().await()
@@ -44,6 +45,10 @@ class PaladinsService(private val devId: Int, private val authKey: String) {
         paladinsClient.getPlayer(devId, it.first, sessionManager.sessionId, it.second, player)
     }, GET_PLAYER)
 
+    suspend fun getChampions(language: Language = Language.ENGLISH) = validateSessionAndRunApi({
+        paladinsClient.getChampions(devId, it.first, sessionManager.sessionId, it.second, language.code)
+    }, GET_CHAMPIONS)
+
     private suspend fun <T> validateSessionAndRunApi(block: (a: Pair<String, String>) -> Deferred<T>,
                                                      callName: String) =
             if (sessionManager.isSessionValid()) {
@@ -65,7 +70,6 @@ class PaladinsService(private val devId: Int, private val authKey: String) {
         return "$devId$callName$authKey$timeStamp".md5() to timeStamp
     }
 
-
     companion object {
         const val PING = "ping"
         const val CREATE_SESSION = "createsession"
@@ -73,5 +77,6 @@ class PaladinsService(private val devId: Int, private val authKey: String) {
         const val GET_DATA_USED = "getdataused"
         const val GET_FRIENDS = "getfriends"
         const val GET_PLAYER = "getplayer"
+        const val GET_CHAMPIONS = "getchampions"
     }
 }

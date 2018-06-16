@@ -1,6 +1,7 @@
 package io.tafel.paladins
 
 import io.tafel.paladins.PaladinsService.Companion.CREATE_SESSION
+import io.tafel.paladins.PaladinsService.Companion.GET_CHAMPIONS
 import io.tafel.paladins.PaladinsService.Companion.GET_DATA_USED
 import io.tafel.paladins.PaladinsService.Companion.GET_FRIENDS
 import io.tafel.paladins.PaladinsService.Companion.GET_HIREZ_SERVER_STATUS
@@ -46,4 +47,11 @@ interface PaladinsAPI {
                   @Path("session") session: String,
                   @Path("timestamp") timeStamp: String,
                   @Path("player") player: String): Deferred<List<PlayerInfo>>
+
+    @GET("${GET_CHAMPIONS}Json/{devId}/{signature}/{session}/{timestamp}/{languageCode}")
+    fun getChampions(@Path("devId") devId: Int,
+                     @Path("signature") signature: String,
+                     @Path("session") session: String,
+                     @Path("timestamp") timeStamp: String,
+                     @Path("languageCode") languageCode: Int): Deferred<List<Champion>>
 }
