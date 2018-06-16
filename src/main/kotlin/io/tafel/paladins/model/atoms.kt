@@ -33,3 +33,42 @@ data class Friend(
         @SerializedName("player_id") var playerId: String,
         @SerializedName("ret_msg") var retMsg: Any
 )
+
+data class PlayerInfo(
+        @SerializedName("Created_Datetime") var createdDatetime: String,
+        @SerializedName("Id") var id: Int,
+        @SerializedName("Last_Login_Datetime") var lastLoginDatetime: String,
+        @SerializedName("Leaves") var leaves: Int,
+        @SerializedName("Level") var level: Int,
+        @SerializedName("Losses") var losses: Int,
+        @SerializedName("MasteryLevel") var masteryLevel: Int,
+        @SerializedName("Name") var name: String,
+        @SerializedName("Personal_Status_Message") var personalStatusMessage: String,
+        @SerializedName("RankedConquest") var rankedConquest: RankedConquest,
+        @SerializedName("Region") var region: String,
+        @SerializedName("TeamId") var teamId: Int,
+        @SerializedName("Team_Name") var teamName: String,
+        @SerializedName("Tier_Conquest") var tierConquest: Int,
+        @SerializedName("Total_Achievements") var totalAchievements: Int,
+        @SerializedName("Total_Worshippers") var totalWorshippers: Int,
+        @SerializedName("Wins") var wins: Int,
+        @SerializedName("ret_msg") var retMsg: Any
+)
+
+data class RankedConquest(
+        @SerializedName("Leaves") var leaves: Int,
+        @SerializedName("Losses") var losses: Int,
+        @SerializedName("Name") var name: String,
+        @SerializedName("Points") var points: Int,
+        @SerializedName("PrevRank") var prevRank: Int,
+        @SerializedName("Rank") var rank: Int,
+        @SerializedName("Rank_Stat_Conquest") var rankStatConquest: Any,
+        @SerializedName("Rank_Stat_Duel") var rankStatDuel: Any,
+        @SerializedName("Rank_Stat_Joust") var rankStatJoust: Any,
+        @SerializedName("Season") var season: Int,
+        @SerializedName("Tier") var tier: Int,
+        @SerializedName("Trend") var trend: Int,
+        @SerializedName("Wins") var wins: Int,
+        @SerializedName("player_id") var playerId: Any,
+        @SerializedName("ret_msg") var retMsg: Any
+)

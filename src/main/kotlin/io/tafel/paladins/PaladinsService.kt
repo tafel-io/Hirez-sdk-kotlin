@@ -16,11 +16,11 @@ class PaladinsService(private val devId: Int, private val authKey: String) {
             .baseUrl("http://api.paladins.com/paladinsapi.svc/")
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
-            .client(getOKHTTPClient())
+            .client(getOkHTTPClient())
             .build()
             .create(PaladinsAPI::class.java)
 
-    private fun getOKHTTPClient() = OkHttpClient.Builder()
+    private fun getOkHTTPClient() = OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }).build()
 
     suspend fun ping() = paladinsClient.pingAPI().await()
@@ -39,6 +39,10 @@ class PaladinsService(private val devId: Int, private val authKey: String) {
     suspend fun getFriends(player: String) = validateSessionAndRunApi({
         paladinsClient.getFriends(devId, it.first, sessionManager.sessionId, it.second, player)
     }, GET_FRIENDS)
+
+    suspend fun getPlayer(player: String) = validateSessionAndRunApi({
+        paladinsClient.getPlayer(devId, it.first, sessionManager.sessionId, it.second, player)
+    }, GET_PLAYER)
 
     private suspend fun <T> validateSessionAndRunApi(block: (a: Pair<String, String>) -> Deferred<T>,
                                                      callName: String) =
@@ -68,5 +72,6 @@ class PaladinsService(private val devId: Int, private val authKey: String) {
         const val GET_HIREZ_SERVER_STATUS = "gethirezserverstatus"
         const val GET_DATA_USED = "getdataused"
         const val GET_FRIENDS = "getfriends"
+        const val GET_PLAYER = "getplayer"
     }
 }

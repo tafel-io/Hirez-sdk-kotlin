@@ -60,4 +60,10 @@ internal class PaladinsServiceTest {
         val friends = runBlocking { paladinsService.getFriends("PGPGPGPG") }
         print(friends)
     }
+
+    @Test
+    fun getPlayer() {
+        val player = runBlocking { paladinsService.getPlayer("PGPGPGPG") }
+        print(player)
+    }
 }
