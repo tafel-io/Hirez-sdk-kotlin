@@ -36,4 +36,10 @@ internal class PaladinsServiceTest {
         val createSessionResponse = runBlocking { PaladinsService(devId, authKey).createSession() }
         print(createSessionResponse)
     }
+
+    @Test
+    fun getServerStatus() {
+        val serverStatus = runBlocking { PaladinsService(devId, authKey).getServerStatus() }
+        print(serverStatus)
+    }
 }

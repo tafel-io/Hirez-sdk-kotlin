@@ -6,12 +6,11 @@ import java.util.*
 
 class SessionManager(var sessionId: String = "", var lastSessionUpdatedTimeStamp: Date = Date()) {
     fun updateSession(sessionResponse: SessionResponse) {
-        if (sessionId.isBlank()) {
+        if (sessionResponse.sessionId.isBlank()) {
             return
         }
         sessionId = sessionResponse.sessionId
-        lastSessionUpdatedTimeStamp = SimpleDateFormat("d/M/yyyy k:m:s a").parse(sessionResponse.timestamp)
-        print(lastSessionUpdatedTimeStamp)
+        lastSessionUpdatedTimeStamp = SimpleDateFormat("M/d/yyyy k:m:s a").parse(sessionResponse.timestamp)
     }
 
     fun isSessionValid() = sessionId.isNotBlank() && !isSessionExpired()

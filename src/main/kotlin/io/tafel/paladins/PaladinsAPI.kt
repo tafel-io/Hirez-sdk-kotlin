@@ -1,5 +1,6 @@
 package io.tafel.paladins
 
+import io.tafel.paladins.model.ServerStatusResponse
 import io.tafel.paladins.model.SessionResponse
 import kotlinx.coroutines.experimental.Deferred
 import retrofit2.http.GET
@@ -16,4 +17,12 @@ interface PaladinsAPI {
                       @Path("devId") devId: Int,
                       @Path("signature") signature: String,
                       @Path("timestamp") timeStamp: String): Deferred<SessionResponse>
+
+    @GET("{callName}Json/{devId}/{signature}/{session}/{timestamp}")
+    fun getServerStatus(@Path("callName") pathKey: String,
+                        @Path("devId") devId: Int,
+                        @Path("signature") signature: String,
+                        @Path("session") session: String,
+                        @Path("timestamp") timeStamp: String): Deferred<List<ServerStatusResponse>>
+
 }
