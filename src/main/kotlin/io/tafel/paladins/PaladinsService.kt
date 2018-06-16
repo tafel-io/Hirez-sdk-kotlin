@@ -23,10 +23,6 @@ class PaladinsService(private val devId: Int, private val authKey: String) {
     private fun getOKHTTPClient() = OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }).build()
 
-    init {
-        launch { updateSession() }
-    }
-
     suspend fun ping() = paladinsClient.pingAPI().await()
 
     suspend fun createSession() = getTimeStampAndSignaturePair(CREATE_SESSION)
