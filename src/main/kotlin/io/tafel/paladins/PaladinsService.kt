@@ -3,7 +3,6 @@ package io.tafel.paladins
 import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.experimental.CoroutineCallAdapterFactory
 import kotlinx.coroutines.experimental.Deferred
-import kotlinx.coroutines.experimental.launch
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -41,6 +40,10 @@ class PaladinsService(private val devId: Int, private val authKey: String) {
         paladinsClient.getDataUsed(devId, it.first, sessionManager.sessionId, it.second)
     }, GET_DATA_USED)
 
+    suspend fun getFriends(player: String) = validateSessionAndRunApi({
+        paladinsClient.getFriends(devId, it.first, sessionManager.sessionId, it.second, player)
+    }, GET_FRIENDS)
+
     private suspend fun <T> validateSessionAndRunApi(block: (a: Pair<String, String>) -> Deferred<T>,
                                                      callName: String) =
             if (sessionManager.isSessionValid()) {
@@ -68,5 +71,6 @@ class PaladinsService(private val devId: Int, private val authKey: String) {
         const val CREATE_SESSION = "createsession"
         const val GET_HIREZ_SERVER_STATUS = "gethirezserverstatus"
         const val GET_DATA_USED = "getdataused"
+        const val GET_FRIENDS = "getfriends"
     }
 }

@@ -26,3 +26,10 @@ data class DataUsageResponse(
         @SerializedName("Total_Sessions_Today") var totalSessionsToday: Int,
         @SerializedName("ret_msg") var retMsg: Any
 )
+
+data class Friend(
+        @SerializedName("account_id") var accountId: String,
+        @SerializedName("name") var name: String,
+        @SerializedName("player_id") var playerId: String,
+        @SerializedName("ret_msg") var retMsg: Any
+)

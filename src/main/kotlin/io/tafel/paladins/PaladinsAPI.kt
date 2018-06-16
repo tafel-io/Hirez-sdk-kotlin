@@ -2,9 +2,11 @@ package io.tafel.paladins
 
 import io.tafel.paladins.PaladinsService.Companion.CREATE_SESSION
 import io.tafel.paladins.PaladinsService.Companion.GET_DATA_USED
+import io.tafel.paladins.PaladinsService.Companion.GET_FRIENDS
 import io.tafel.paladins.PaladinsService.Companion.GET_HIREZ_SERVER_STATUS
 import io.tafel.paladins.PaladinsService.Companion.PING
 import io.tafel.paladins.model.DataUsageResponse
+import io.tafel.paladins.model.Friend
 import io.tafel.paladins.model.ServerStatusResponse
 import io.tafel.paladins.model.SessionResponse
 import kotlinx.coroutines.experimental.Deferred
@@ -32,4 +34,11 @@ interface PaladinsAPI {
                     @Path("signature") signature: String,
                     @Path("session") session: String,
                     @Path("timestamp") timeStamp: String): Deferred<List<DataUsageResponse>>
+
+    @GET("${GET_FRIENDS}Json/{devId}/{signature}/{session}/{timestamp}/{player}")
+    fun getFriends(@Path("devId") devId: Int,
+                   @Path("signature") signature: String,
+                   @Path("session") session: String,
+                   @Path("timestamp") timeStamp: String,
+                   @Path("player") player: String): Deferred<List<Friend>>
 }
