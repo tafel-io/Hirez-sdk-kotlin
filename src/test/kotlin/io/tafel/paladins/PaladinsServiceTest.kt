@@ -42,4 +42,10 @@ internal class PaladinsServiceTest {
         val serverStatus = runBlocking { PaladinsService(devId, authKey).getServerStatus() }
         print(serverStatus)
     }
+
+    @Test
+    fun getDataUsed() {
+        val dataUsed = runBlocking { PaladinsService(devId, authKey).getDataUsed() }
+        print(dataUsed)
+    }
 }

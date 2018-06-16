@@ -14,3 +14,15 @@ data class ServerStatusResponse(
         @SerializedName("status") var status: String,
         @SerializedName("version") var version: String
 )
+
+
+data class DataUsageResponse(
+        @SerializedName("Active_Sessions") var activeSessions: Int,
+        @SerializedName("Concurrent_Sessions") var concurrentSessions: Int,
+        @SerializedName("Request_Limit_Daily") var requestLimitDaily: Int,
+        @SerializedName("Session_Cap") var sessionCap: Int,
+        @SerializedName("Session_Time_Limit") var sessionTimeLimit: Int,
+        @SerializedName("Total_Requests_Today") var totalRequestsToday: Int,
+        @SerializedName("Total_Sessions_Today") var totalSessionsToday: Int,
+        @SerializedName("ret_msg") var retMsg: Any
+)

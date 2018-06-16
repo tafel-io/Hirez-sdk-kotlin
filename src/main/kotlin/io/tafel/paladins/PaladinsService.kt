@@ -28,14 +28,18 @@ class PaladinsService(private val devId: Int, private val authKey: String) {
         launch { updateSession() }
     }
 
-    suspend fun ping() = paladinsClient.pingAPI(PING).await()
+    suspend fun ping() = paladinsClient.pingAPI().await()
 
     suspend fun createSession() = getTimeStampAndSignaturePair(CREATE_SESSION)
-            .let { paladinsClient.createSession(CREATE_SESSION, devId, it.first, it.second) }.await()
+            .let { paladinsClient.createSession(devId, it.first, it.second) }.await()
 
     suspend fun getServerStatus() = validateSessionAndRunApi({
-        paladinsClient.getServerStatus(GET_HIREZ_SERVER_STATUS, devId, it.first, sessionManager.sessionId, it.second)
+        paladinsClient.getServerStatus(devId, it.first, sessionManager.sessionId, it.second)
     }, GET_HIREZ_SERVER_STATUS)
+
+    suspend fun getDataUsed() = validateSessionAndRunApi({
+        paladinsClient.getDataUsed(devId, it.first, sessionManager.sessionId, it.second)
+    }, GET_DATA_USED)
 
     private suspend fun <T> validateSessionAndRunApi(block: (a: Pair<String, String>) -> Deferred<T>,
                                                      callName: String) =
@@ -60,8 +64,9 @@ class PaladinsService(private val devId: Int, private val authKey: String) {
 
 
     companion object {
-        private const val PING = "ping"
-        private const val CREATE_SESSION = "createsession"
-        private const val GET_HIREZ_SERVER_STATUS = "gethirezserverstatus"
+        const val PING = "ping"
+        const val CREATE_SESSION = "createsession"
+        const val GET_HIREZ_SERVER_STATUS = "gethirezserverstatus"
+        const val GET_DATA_USED = "getdataused"
     }
 }
