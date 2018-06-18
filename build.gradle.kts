@@ -1,13 +1,19 @@
+import org.jetbrains.dokka.DokkaConfiguration
+import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.dsl.Coroutines
+import org.jetbrains.kotlin.types.checker.captureFromArguments
+import java.net.URL
 
 plugins {
-    application
     kotlin("jvm") version "1.2.41"
+    maven
+    jacoco
+    id("org.jetbrains.dokka") version "0.9.17"
 }
 
-application {
-    mainClassName = "samples.HelloCoroutinesKt"
-}
+group = "io.tafel"
+version = "0.1.0"
+description = "Hirez sdk in kotlin using coroutines"
 
 kotlin { // configure<org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension>
     experimental.coroutines = Coroutines.ENABLE
@@ -31,3 +37,43 @@ repositories {
     jcenter()
 }
 
+/* Code coverage */
+
+val jacocoTestReport by tasks.getting(JacocoReport::class) {
+    reports.xml.isEnabled = true
+}
+
+val test by tasks.getting {
+    finalizedBy(jacocoTestReport)
+}
+
+/* KDoc */
+
+val dokka by tasks.getting(DokkaTask::class) {
+    outputFormat = "javadoc"
+    outputDirectory = "$buildDir/javadoc"
+
+    externalDocumentationLink(delegateClosureOf<DokkaConfiguration.ExternalDocumentationLink.Builder> {
+        url = URL("https://square.github.io/okhttp/3.x/okhttp/")
+    })
+    externalDocumentationLink(delegateClosureOf<DokkaConfiguration.ExternalDocumentationLink.Builder> {
+        url = URL("https://square.github.io/retrofit/2.x/retrofit/")
+    })
+}
+
+val sourcesJar by tasks.creating(Jar::class) {
+    dependsOn("classes")
+    classifier = "sources"
+    from(java.sourceSets["main"].allSource)
+}
+
+val javadocJar by tasks.creating(Jar::class) {
+    dependsOn(dokka)
+    classifier = "javadoc"
+    from("$buildDir/javadoc")
+}
+
+artifacts {
+    add("archives", javadocJar)
+    add("archives", sourcesJar)
+}
