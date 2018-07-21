@@ -5,7 +5,6 @@ import com.jakewharton.retrofit2.adapter.kotlin.coroutines.experimental.Coroutin
 import io.tafel.paladins.model.Language
 import kotlinx.coroutines.experimental.Deferred
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.text.SimpleDateFormat
@@ -21,8 +20,7 @@ class PaladinsService(private val devId: Int, private val authKey: String) {
             .build()
             .create(PaladinsAPI::class.java)
 
-    private fun getOkHttpClient() = OkHttpClient.Builder()
-            .addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }).build()
+    private fun getOkHttpClient() = OkHttpClient.Builder().build()
 
     suspend fun ping() = paladinsClient.pingAPI().await()
 
